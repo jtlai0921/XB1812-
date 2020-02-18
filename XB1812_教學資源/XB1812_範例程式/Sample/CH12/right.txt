@@ -1,0 +1,11 @@
+﻿<hr/>
+<table>
+<tr>
+  <td width="88"><p><a href="http://www.webguide.nat.gov.tw/enable.jsp?category=20081028154810"
+" title="無障礙網站"><img src="image/aplus.jpg" 
+border="0" width="88" height="32" alt="通過A+等級無障礙網頁檢測"></a></p></td>
+   <td width="44" align="right"><img src="image/yu.gif" alt="Self logo[圖]" width="38" height="32"></td>
+   <td width="510">台北市木柵路一段17巷1號<br/>
+                 資傳系</td>
+</tr>
+</table>

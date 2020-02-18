@@ -1,0 +1,204 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <style type="text/css">
+    .title{
+      float:left;
+      width:100px;
+      text-align:right;
+      height:18px;
+      line-height:22px;
+    }
+    .tips{
+      float:left;
+      text-align:left;
+      height:18px;
+      line-height:22px;
+      padding-left:5px;
+      color:red;
+    }
+    .input{
+      float:left;
+      width:160px;
+      height:18px;
+      line-height:18px;
+      border:1px solid #4FADF5;
+      background-color:#C7FADF;
+      color:#006;
+      font-weight:bold;
+    }
+    .frame{
+      width:480px;
+      height:30px;
+    }
+  </style>
+
+  <script type = "text/javascript">
+    var xmlHttp;
+    var flag;
+    function createAJAX(){
+      if (window.XMLHttpRequest){
+        xmlHttp=new XMLHttpRequest();
+      }else{
+        xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+
+    function startVerify(userId){
+      if (userId.length==0)
+        return false;
+        
+      if (!xmlHttp) createAJAX();
+      xmlHttp.onreadystatechange=callUserBack;
+      xmlHttp.open("GET","userVerify.jsp?user="+userId,false);   //false: 非同步傳輸
+      xmlHttp.send();     
+    }
+    
+    function callUserBack(){
+      if(xmlHttp.readyState == 4){
+        if (xmlHttp.status == 200 || xmlHttp.status == 0){
+          var text=xmlHttp.responseText; //接收伺服器回應的內容
+         
+           if (text.indexOf("true")>-1){
+             document.getElementById("userStatus").innerHTML="使用者帳號重複";
+             flag=false;
+           }else{
+            document.getElementById("userStatus").innerHTML="OK";
+            flag=true;
+           }
+        }
+      }
+    }
+    
+    function sendSelect(obj){
+      var sel=document.getElementById(obj);
+      var value=sel.options[sel.selectedIndex].value;
+      if (!xmlHttp) createAJAX();
+      xmlHttp.open("GET","deptSel.jsp?text="+value,true);
+      xmlHttp.onreadystatechange = callDeptBack;
+      xmlHttp.send();
+    }
+
+    function callDeptBack(){
+      if(xmlHttp.readyState == 4){
+        if (xmlHttp.status == 200 || xmlHttp.status == 0){
+          var res=xmlHttp.responseXML.getElementsByTagName("option");
+          var sel=document.getElementById("dept");
+          sel.options.length=0;
+          for(var i=0;i< res.length; i++) {
+            var sTitle=res[i].firstChild.data;
+            i++;
+            var sValue=res[i].firstChild.data;
+            sel.add(new Option(sTitle,sValue))
+          }         
+        }else{
+          alert("網頁執行發生錯誤，所要求的選項無法回應");
+        }
+      }
+    }
+    
+    // 檢查兩次密碼是否相同
+    function chkPwd(){ 
+      with(document.all){
+        if(pwd1.value!=pwd2.value){
+          document.getElementById("pwdStatus").innerHTML="密碼輸入不同";
+          document.getElementById('pwd1').focus();
+        }else{
+          document.getElementById("pwdStatus").innerHTML="";
+        }
+      }
+    }
+    
+    //檢查email格式
+    function chkEmail(mail){
+      if(mail.length==0)
+        return false;
+      var at_pos=mail.indexOf("@");
+      var dot_pos=mail.lastIndexOf(".");
+      if (at_pos==-1||dot_pos-at_pos<2){
+        document.getElementById("emailStatus").innerHTML="帳號格式錯誤";
+        return false;
+      }else{
+        document.getElementById("emailStatus").innerHTML="";
+      }
+       
+    }
+
+    function chkForm(thisForm){
+      with (thisForm){
+        if (user.value.length == 0) { 
+          alert("帳號不能是空值");
+          user.focus();
+          return false;
+        }
+        if (pwd.value.length == 0) { 
+          alert("密碼不能是空值");
+          pwd.focus();
+          return false;
+        }
+        if (email.value.length == 0) { 
+          alert("電郵不能是空值");
+          email.focus();
+          return false;
+        }
+      }
+      return flag;  //當帳號已存在時falg為false
+    }
+  </script>
+
+  <form name="RegisterForm" method="post" action="setStaff.jsp" onsubmit="return chkForm(this)"> 
+    <fieldset>
+      <legend>資料輸入</legend>
+ 
+      <div class="frame">
+        <div class="title">姓名：</div>
+        <div><INPUT type="text" name="name" id="name" class="input"></div>
+      </div>    
+
+      <div class="frame">
+        <div class="title">帳號：</div>
+        <div><INPUT type="text" id="user" name="user" onblur="startVerify(this.value);" class="input"></div>
+        <div class="tips" id="userStatus"></div>
+      </div>
+   
+      <div class="frame">
+        <div class="title">密碼：</div>
+        <div><INPUT type="password" name="pwd" id="pwd1" class="input"></div>
+      </div>
+
+      <div class="frame">
+        <div class="title">確認密碼：</div>
+        <div><INPUT type="password" name="pwd2" id="pwd2" onblur="chkPwd();" class="input"></div>
+        <div class="tips" id="pwdStatus"></div>
+      </div>
+    
+      <div class="frame">
+        <div class="title">E-mail：</div>
+        <div><INPUT type="text" name="email" id="email" class="input" onblur="chkEmail(this.value);"></div>
+        <div class="tips" id="emailStatus"></div>
+      </div>    
+
+      <!-- 連動下拉式選單-->
+      <div class="frame">
+         <div>
+           <label for="unit">單位：</label>
+           <select onchange="sendSelect('unit')" id="unit" name="unit">
+             <option value="" selected>選擇單位</option>
+             <option value="adm">行政單位</option>
+             <option value="col">教學單位</option>
+           </select>
+
+           <label for="dept">單位所屬機構：</label>
+           <select id="dept" name="dept">
+             <option value="" selected>選擇所屬機構</option>
+           </select>
+         </div>
+      </div>
+    
+      <div class="frame">
+        <input type="submit" value="登錄"/>
+        <input type="reset" value="清除"/>
+      </div>
+
+    </fieldset>
+  </form>
+</html>

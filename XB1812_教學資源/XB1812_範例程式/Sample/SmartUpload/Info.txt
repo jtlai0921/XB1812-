@@ -1,0 +1,9 @@
+下載網址：http://www.jspsmart.com
+用於文件上傳
+可置於classpath或TOMCAT_HOME\lib目錄內
+套件檔名：smartupload.jar
+程式引入套件名稱：org.lxh.smart.*
+
+
+網站已不再經營，現在網站無法直接下載，盡是些廣告商品。
+透果搜尋引擎尋找網路其他處，由其他處下載

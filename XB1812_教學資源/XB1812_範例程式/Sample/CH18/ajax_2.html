@@ -1,0 +1,35 @@
+﻿<html>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  <script type="text/javascript">
+    var xmlHttp;
+    function createAJAX(){
+      if(window.ActiveXObject){
+        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }else if(window.XMLHttpRequest){
+        xmlHttp = new XMLHttpRequest();
+      }
+    }
+
+    function startRequest(){
+      createAJAX();
+      try{
+        xmlHttp.onreadystatechange = stateChange;
+        xmlHttp.open("GET", "process.jsp", true);
+        xmlHttp.send(null);
+      }catch(exception){
+        alert("資料不存在");
+      }
+    }
+
+    function stateChange(){
+      if(xmlHttp.readyState == 4){
+        if (xmlHttp.status == 200 || xmlHttp.status == 0){  // 顯示回應結果
+          document.getElementById("info").innerHTML=xmlHttp.responseText;
+      }
+    }
+}
+</script>
+
+<div id="info"></div>
+<div><input type="button" value="執行" onclick="startRequest();" /></div>
+</html>

@@ -1,0 +1,61 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <meta http-equiv="Content-Language" content="utf-8" />
+  <script type="text/javascript">
+    var xmlHttp;
+    function createAJAX(){
+      if(window.ActiveXObject){
+        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }else if(window.XMLHttpRequest){
+        xmlHttp = new XMLHttpRequest();
+      }
+    }
+
+    function sendRequest(obj){
+      var sel=document.getElementById(obj);
+      var value=sel.options[sel.selectedIndex].value;
+      createAJAX();
+      xmlHttp.open("GET","select.jsp?choice="+value,true);
+      xmlHttp.onreadystatechange = callBack;
+      xmlHttp.send();
+    }
+
+    function callBack(){
+      if(xmlHttp.readyState == 4){
+        if (xmlHttp.status == 200 || xmlHttp.status == 0){
+          refreshMenu();
+        }else{
+          alert("網頁執行發生錯誤，所要求的選項無法回應");
+        }
+      }
+    }
+
+    function refreshMenu(){//更新選項內容
+      var res=xmlHttp.responseXML.getElementsByTagName("option");
+      var selec=document.getElementById("edu");
+      selec.options.length=0;
+      for(var i=0;i< res.length; i++) {
+        selec.add(new Option(res[i].firstChild.data,res[i].firstChild.data)); 
+      }
+    }
+</script>
+
+  <fieldset> 
+    <legend>學校資訊</legend>
+    <div>
+      <label for="city">縣市:</label>
+      <select onchange="sendRequest('city')" id="city" name="city">
+        <option value="" selected>選擇縣市</option>
+        <option value="tpe">台北市</option>
+        <option value="klc">基隆市</option>
+        <option value="ntp">新北市</option>
+      </select>
+    </div>
+     <div>
+      <label for="edu">大學院校:</label>
+      <select id="edu" name="edu">
+        <option value="" selected>選擇大學</option>
+      </select>
+    </div>
+  </fieldset>
+</html>

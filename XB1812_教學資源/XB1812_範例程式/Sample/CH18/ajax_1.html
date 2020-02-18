@@ -1,0 +1,29 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<script type="text/javascript">
+  function loadXMLDoc(){
+    if (window.XMLHttpRequest){
+      // for IE7+, Firefox, Chrome, Opera, Safari
+      xmlHttp=new XMLHttpRequest();
+    }else{
+      //for IE5, IE6
+      xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlHttp.onreadystatechange=function(){
+      if(xmlHttp.readyState == 4){
+        if (xmlHttp.status == 200 || xmlHttp.status == 0){ // 顯示回應結果
+          document.getElementById("myTest").innerHTML=xmlHttp.responseText;
+        }
+      }   
+    }
+    xmlHttp.open("GET","info.txt",true);
+    xmlHttp.send();
+  }
+</script>
+</head>
+<body>
+  <button type="button" onclick="loadXMLDoc()">按我更改內容</button>
+  <div id="myTest">AJAX練習範例</div>
+</body>
+</html>

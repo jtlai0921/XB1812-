@@ -1,0 +1,49 @@
+﻿<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+function validateRequired(field,alerttxt){
+    with (field){
+        if (value==null||value==""){
+            alert(alerttxt);return false;
+        }else{
+            return true;
+        }
+    }
+}
+
+function validateEmail(field,alerttxt){
+    with (field){
+        apos=value.indexOf("@");
+        dotpos=value.lastIndexOf(".");
+        if (apos<1||dotpos-apos<2){
+            alert(alerttxt);return false;
+        }else{
+            return true;
+        }
+    }
+}
+
+function validateForm(thisform){
+    with (thisform){
+        if (validateRequired(user,"帳號不能是空值")==false){
+            user.focus();return false;
+        }
+        if (validateEmail(email,"電郵格式不正確")==false){
+            email.focus();return false;
+        }
+    }
+}
+</script>
+
+<form action="affiliation.jsp" onsubmit="return validateForm(this)" method="post">
+    <fieldset>
+        <legend>會員資料新增</legend>
+        帳號：<input type="text" name="user" /><br/>
+        密碼：<input type="password" name="pwd" /><br/>
+        姓名：<input type="text" name="name" /><br/>
+        電郵：<input type="text" name="email" /><br/>
+    </fieldset>
+    <input type="submit" value="新增" />
+    <input type="reset" value="清除" />
+</form>
+</html>

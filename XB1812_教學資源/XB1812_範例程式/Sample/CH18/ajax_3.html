@@ -1,0 +1,33 @@
+﻿<html>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  <script type = "text/javascript">
+    var xmlHttp;
+    function createAJAX(){
+      if (window.XMLHttpRequest){
+        xmlHttp=new XMLHttpRequest();
+      }else{
+        xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+
+    function startRequest(url){
+      createAJAX();
+      if (!xmlHttp){
+        alert("瀏覽器不支援AJAX");
+        return 0;
+      }
+      xmlHttp.onreadystatechange=function(){
+        if (xmlHttp.readyState==4 && xmlHttp.status==200) {
+            document.getElementById("info").innerHTML=xmlHttp.responseText;
+        }
+      }
+      url=url+'?user='+document.aForm.user.value;
+      xmlHttp.open("GET",url,false);   //false: 非同步傳輸
+      xmlHttp.send();
+    }
+  </script>
+
+  <form name="aForm">
+    帳號：<input type="text" name="user" onblur="startRequest('userVerify.jsp');"/><div id="info"></div>
+    密碼：<input type="password" name="pwd"/><br/>
+  </form>
+</html>

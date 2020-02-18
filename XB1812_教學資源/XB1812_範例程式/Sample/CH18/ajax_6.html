@@ -1,0 +1,47 @@
+﻿<html>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <style type="text/css">
+    #rel{
+      border:1px solid #339;
+      width:350px;
+      margin-left:120px;
+      display:none;
+      padding:2px;
+      color:#800;
+      line-height:20px;
+    }
+  </style>
+
+  <script type="text/javascript">
+    var xmlHttp;
+    function createAJAX(){
+      if (window.XMLHttpRequest){
+        xmlHttp=new XMLHttpRequest();
+      }else{
+        xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+
+    function startRequest(){
+      createAJAX();
+      xmlHttp.onreadystatechange = callBack;
+      //向伺服器提出執行auto.jsp的需求。隨時輸入而執行，因此使用post模式不顯示在URL欄
+      xmlHttp.open("post", "auto.jsp?content="+document.getElementById("content").value);      xmlHttp.send();
+    }
+
+    function callBack(){
+      if(xmlHttp.readyState == 4){
+        if (xmlHttp.status == 200 || xmlHttp.status == 0){
+          var content=xmlHttp.responseText;
+          document.getElementById("rel").style.display="block";
+          document.getElementById("rel").innerHTML=content;
+        }
+      }
+    }
+</script>
+<div id="container">
+<div>請輸入查詢字串：<input id="content" onkeyup="startRequest()" type="text"  size="30" /></div>
+<div id="rel"></div>
+</div>
+</html>

@@ -1,0 +1,8 @@
+1. 須安裝JDK，並設定好系統環境變數(參見附錄A)
+2. 資料庫系統需有School資料庫，並執行過Data.sql產生相關資料表格與資料錄，且設定有登入的帳號與密碼
+3. 須啟動SQL Server TCP/IP，並指定連接port為1433
+4. 須安置好JDBC 驅動程式。sqljdbc4.jar檔案放置於JDK安裝目錄的\jre\lib內
+
+若無安裝Java開發工具，請進入終端機模式：
+5. 使用 javac 編譯 Db.java程式
+6. 使用 java 執行編譯 Db.java程式產生之 Db.class 

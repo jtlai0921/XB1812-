@@ -1,0 +1,4 @@
+這是一段測試文字
+This is a test text.
+檔案內容的讀取練習
+Exercise to read the content of file.
